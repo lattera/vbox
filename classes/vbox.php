@@ -18,8 +18,15 @@ class vbox {
         if (!vbox::isOnline($vm))
             return true;
 
-        system("VBoxManage controlvm '" . $vm["name"] . "' acpipowerbutton");
-        sleep(10);
+        /* Windows needs the power button pressed multiple times for it to register */
+        $count = 1;
+        if ($vm["type"] == "windows")
+            $count = 3;
+
+        for ($i = 0; $i < $count; $i++) {
+            system("VBoxManage controlvm '" . $vm["name"] . "' acpipowerbutton > /dev/null 2>&1");
+            sleep(10);
+        }
 
         return true;
     }

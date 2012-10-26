@@ -12,6 +12,29 @@ $vms = array(
     ),
 );
 
-foreach ($vms as $key => $value) {
-    vbox::pause($value);
+foreach ($argv as $key => $value) {
+    if ($key < 1)
+        continue;
+
+    switch ($value) {
+        case "start":
+            foreach ($vms as $name => $obj)
+                vbox::start($obj);
+            break;
+        case "stop":
+            foreach ($vms as $name => $obj)
+                vbox::stop($obj);
+            break;
+        case "pause":
+            foreach ($vms as $name => $obj)
+                vbox::pause($obj);
+            break;
+        case "restart":
+            foreach ($vms as $name => $obj)
+                vbox::restart($obj);
+            break;
+        default:
+            echo "Unknown action\n";
+            break;
+    }
 }

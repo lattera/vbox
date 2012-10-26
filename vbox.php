@@ -1,40 +1,55 @@
+#!/usr/bin/env php
 <?php
 require_once("classes/vbox.php");
 
-$vms = array(
-    "debian x64" => array(
-        "name" => "Debian x64",
-        "vncport" => 5902,
-    ),
-    "win7 x64" => array(
-        "name" => "Win7 x64",
-        "vncport" => 5901,
-    ),
-);
+$vms = array();
+$actions = array();
+$selected_vms = array();
 
-foreach ($argv as $key => $value) {
-    if ($key < 1)
-        continue;
+for ($i = 1; $i < count($argv); $i++) {
+    $arg=explode("=", $argv[$i]);
+    if (count($arg) < 2) {
+        echo "[-] Bad argument formatting. Expected <arg>=<value>. Given: " . $argv[$i] . "\n";
+        exit(1);
+    }
 
-    switch ($value) {
+    switch ($arg[0]) {
+        case "db":
+            require_once($arg[1]);
+            break;
+        case "vm":
+            $selected_vms[$arg[1]] = $arg[1];
+            break;
+        case "action":
+            $actions[] = $arg[1];
+            break;
+        default:
+            echo "[-] Unknown argument: " . $arg[0] . "\n";
+            exit(1);
+    }
+}
+
+foreach ($actions as $action) {
+    switch ($action) {
         case "start":
             foreach ($vms as $name => $obj)
-                vbox::start($obj);
+                if (!count($selected_vms) || array_key_exists($obj["name"], $selected_vms))
+                    vbox::start($obj);
             break;
         case "stop":
             foreach ($vms as $name => $obj)
-                vbox::stop($obj);
+                if (!count($selected_vms) || array_key_exists($obj["name"], $selected_vms))
+                    vbox::stop($obj);
             break;
         case "pause":
             foreach ($vms as $name => $obj)
-                vbox::pause($obj);
+                if (!count($selected_vms) || array_key_exists($obj["name"], $selected_vms))
+                    vbox::pause($obj);
             break;
         case "restart":
             foreach ($vms as $name => $obj)
-                vbox::restart($obj);
-            break;
-        default:
-            echo "Unknown action\n";
+                if (!count($selected_vms) || array_key_exists($obj["name"], $selected_vms))
+                    vbox::restart($obj);
             break;
     }
 }

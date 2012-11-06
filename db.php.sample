@@ -4,10 +4,18 @@ $vms = array(
         "name" => "Debian x64",
         "vncport" => 5902,
         "type" => "linux",
+        "dataset" => "rpool/VMs/Debian_x64",
     ),
     "win7 x64" => array(
         "name" => "Win7 x64",
         "vncport" => 5901,
         "type" => "windows",
+        "dataset" => "rpool/VMs/Win7_x64",
+    ),
+    "ubuntu x64" => array(
+        "name" => "Ubuntu x64",
+        "vncport" => 5903,
+        "type" => "linux",
+        "dataset" => "rpool/VMs/Ubuntu_x64",
     ),
 );

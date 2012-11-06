@@ -46,6 +46,11 @@ foreach ($actions as $action) {
                 if (!count($selected_vms) || array_key_exists($obj["name"], $selected_vms))
                     vbox::pause($obj);
             break;
+        case "zsnap":
+            foreach ($vms as $name => $obj)
+                if (!count($selected_vms) || array_key_exists($obj["name"], $selected_vms))
+                    vbox::zsnap($obj);
+            break;
         case "restart":
             foreach ($vms as $name => $obj)
                 if (!count($selected_vms) || array_key_exists($obj["name"], $selected_vms))

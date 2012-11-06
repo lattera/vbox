@@ -47,6 +47,26 @@ class vbox {
         return vbox::start($vm);
     }
 
+    public static function zsnap($vm) {
+        $online = vbox::isOnline($vm);
+
+        if (!array_key_exists("dataset", $vm))
+            return true;
+
+        if ($online)
+            if (vbox::pause($vm) == false)
+                return false;
+
+        $timestamp = strftime("%F_%T");
+
+        system("sudo zfs snapshot '" . $vm["dataset"] . "@" . $timestamp . "'");
+
+        if ($online)
+            return vbox::start($vm);
+
+        return true;
+    }
+
     public static function isOnline($vm) {
         $fp = popen("VBoxManage list runningvms", "r");
 

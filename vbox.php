@@ -29,32 +29,39 @@ for ($i = 1; $i < count($argv); $i++) {
     }
 }
 
+if (count($selected_vms)) {
+    foreach ($vms as $name => $obj) {
+        if (!array_key_exists($obj[$name], $selected_vms))
+            unset($vms[$name]);
+    }
+}
+
 foreach ($actions as $action) {
     switch ($action) {
+        case "autostart":
+            foreach ($vms as $name => $obj)
+                if (array_key_exists("autostart", $obj) && $obj["autostart"])
+                    vbox::start($obj);
+            break;
         case "start":
             foreach ($vms as $name => $obj)
-                if (!count($selected_vms) || array_key_exists($obj["name"], $selected_vms))
-                    vbox::start($obj);
+                vbox::start($obj);
             break;
         case "stop":
             foreach ($vms as $name => $obj)
-                if (!count($selected_vms) || array_key_exists($obj["name"], $selected_vms))
-                    vbox::stop($obj);
+                vbox::stop($obj);
             break;
         case "pause":
             foreach ($vms as $name => $obj)
-                if (!count($selected_vms) || array_key_exists($obj["name"], $selected_vms))
-                    vbox::pause($obj);
+                vbox::pause($obj);
             break;
         case "zsnap":
             foreach ($vms as $name => $obj)
-                if (!count($selected_vms) || array_key_exists($obj["name"], $selected_vms))
-                    vbox::zsnap($obj);
+                vbox::zsnap($obj);
             break;
         case "restart":
             foreach ($vms as $name => $obj)
-                if (!count($selected_vms) || array_key_exists($obj["name"], $selected_vms))
-                    vbox::restart($obj);
+                vbox::restart($obj);
             break;
     }
 }

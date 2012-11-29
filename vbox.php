@@ -31,7 +31,7 @@ for ($i = 1; $i < count($argv); $i++) {
 
 if (count($selected_vms)) {
     foreach ($vms as $name => $obj) {
-        if (!array_key_exists($obj[$name], $selected_vms))
+        if (!array_key_exists($obj["name"], $selected_vms))
             unset($vms[$name]);
     }
 }
